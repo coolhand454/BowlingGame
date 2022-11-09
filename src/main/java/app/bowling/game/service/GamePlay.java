@@ -7,17 +7,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GamePlay {
-
+    Logger logger = Logger.getLogger(GamePlay.class.getName());
     public void playGame(String playerGameFile) {
         Game game = new Game();
         try {
-            BufferedReader br
+            BufferedReader reader
                     = new BufferedReader(new FileReader(playerGameFile));
             Map<String, List<Frame>> playerFrames = game.getPlayerFrames();
             String bowlerRolls;
-            while ((bowlerRolls = br.readLine()) != null) {
+            while ((bowlerRolls = reader.readLine()) != null) {
                 buildBowlingGame(bowlerRolls, playerFrames);
 
             }
@@ -25,12 +27,14 @@ public class GamePlay {
             printBowlingResults(playerFrames);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "File not Found: " + e.getMessage());
         }
 
     }
 
     public void printBowlingResults(Map<String, List<Frame>> playerFrames) {
+        logger.log(Level.INFO, "Staring printing results for Bowling Data");
+
         Formatter fmtPins = new Formatter();
         Formatter fmtScore = new Formatter();
         Formatter fmtFrameNumber = new Formatter();
@@ -73,10 +77,12 @@ public class GamePlay {
             fmtScore.format("%-7s", "Score ");
 
         }
+        logger.log(Level.INFO, "Finished  printing results for Bowling Data");
+
     }
 
     public void buildBowlingGame(String playerLine, Map<String, List<Frame>> playerFrames) throws IOException {
-
+        logger.log(Level.INFO, "Staring building Bowling Data");
         String bowlerRolls;
         String[] namePins = playerLine.split(" ");
         String name = namePins[0];
@@ -158,6 +164,7 @@ public class GamePlay {
             playerFrames.put(name, frames);
 
         }
+        logger.log(Level.INFO, "Finishing building Bowling Data");
 
 
     }
@@ -173,6 +180,7 @@ public class GamePlay {
     }
 
     public void assignScores(Map<String, List<Frame>> playerFrames) {
+        logger.log(Level.INFO, "Staring assign Scores for Bowling Data");
 
         for (Map.Entry<String, List<Frame>> stringListEntry : playerFrames.entrySet()) {
 
@@ -248,6 +256,7 @@ public class GamePlay {
 
             }
         }
+        logger.log(Level.INFO, "Finished  assign Scores for Bowling Data");
 
     }
 
