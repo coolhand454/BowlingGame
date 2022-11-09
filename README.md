@@ -1,5 +1,4 @@
 How to execute Program
 
-Cd to game folder
-run maven command below:
-mvn clean compile exec:java -Dexec.mainClass="BowlingGame" -Dexec.args=playerGame.txt
+- Run maven command Bowling Game root folder below:
+    - ***mvn clean package exec:java -Dexec.mainClass="app.bowling.game.BowlingGame" -Dexec.args=playerGame.txt***

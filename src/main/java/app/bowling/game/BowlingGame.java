@@ -1,4 +1,6 @@
-import service.GamePlay;
+package app.bowling.game;
+
+import app.bowling.game.service.GamePlay;
 
 public class BowlingGame {
 

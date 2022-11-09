@@ -1,11 +1,9 @@
-import bo.Frame;
+import app.bowling.game.bo.Frame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import service.GamePlay;
+import app.bowling.game.service.GamePlay;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,11 +18,11 @@ public class BowlingGameBuilderTest {
 
     Map<String, List<Frame>> playerGame = new HashMap<>();
 
-    String[] stringBuilder;
-    String[] stringBuilder2;
+    String[] gamePlayerData;
+    String[] gamePlayerDataStike;
 
     GamePlay gamePlay;
-    Map<String, List<Frame>> playerGame2;
+    Map<String, List<Frame>> playerGameStike;
 
 
     @BeforeEach
@@ -48,7 +46,7 @@ public class BowlingGameBuilderTest {
         frames.add(frame);
         playerGame.put("Tom", frames);
 
-        stringBuilder = new String[]{
+        gamePlayerData = new String[]{
                 "Jeff 10",
                 "John 3",
                 "John 7",
@@ -85,7 +83,7 @@ public class BowlingGameBuilderTest {
                 "John 6",
                 "John 7"};
 
-        stringBuilder2 = new String[]{
+        gamePlayerDataStike = new String[]{
                 "Carl 10",
                 "Carl 10",
                 "Carl 10",
@@ -99,15 +97,15 @@ public class BowlingGameBuilderTest {
                 "Carl 10",
                 "Carl 10"};
         try {
-            for (int pos = 0; pos < stringBuilder.length; pos++) {
+            for (int pos = 0; pos < gamePlayerData.length; pos++) {
 
-                gamePlay.buildBowlingGame(stringBuilder[pos], playerGame);
+                gamePlay.buildBowlingGame(gamePlayerData[pos], playerGame);
 
             }
 
-            playerGame2 = new HashMap<>();
-            for (int pos = 0; pos < stringBuilder2.length; pos++) {
-                gamePlay.buildBowlingGame(stringBuilder2[pos], playerGame2);
+            playerGameStike = new HashMap<>();
+            for (int pos = 0; pos < gamePlayerDataStike.length; pos++) {
+                gamePlay.buildBowlingGame(gamePlayerDataStike[pos], playerGameStike);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,7 +118,7 @@ public class BowlingGameBuilderTest {
         assertEquals("4", playerGame.get("Tom").get(0).getPinFallChars().get(1));
         assertEquals("8", playerGame.get("Jeff").get(5).getPinFallChars().get(0));
         assertEquals("", playerGame.get("John").get(2).getPinFallChars().get(1));
-        assertEquals("X", playerGame2.get("Carl").get(2).getPinFallChars().get(0));
+        assertEquals("X", playerGameStike.get("Carl").get(2).getPinFallChars().get(0));
 
 
     }
@@ -128,20 +126,20 @@ public class BowlingGameBuilderTest {
     @Test
     void testBowlingAssignScores() throws IOException {
         gamePlay.assignScores(playerGame);
-        gamePlay.assignScores(playerGame2);
+        gamePlay.assignScores(playerGameStike);
 
         assertEquals(5, playerGame.get("Tom").get(0).getScore());
         assertEquals(84, playerGame.get("Jeff").get(5).getScore());
         assertEquals(44, playerGame.get("John").get(2).getScore());
-        assertEquals(90, playerGame2.get("Carl").get(2).getScore());
+        assertEquals(90, playerGameStike.get("Carl").get(2).getScore());
     }
 
     @Test
     void testBowlingPrintGame() throws IOException {
         gamePlay.assignScores(playerGame);
-        gamePlay.assignScores(playerGame2);
+        gamePlay.assignScores(playerGameStike);
         gamePlay.printBowlingResults(playerGame);
 
-        gamePlay.printBowlingResults(playerGame2);
+        gamePlay.printBowlingResults(playerGameStike);
     }
 }

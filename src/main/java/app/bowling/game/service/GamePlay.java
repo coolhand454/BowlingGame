@@ -1,7 +1,7 @@
-package service;
+package app.bowling.game.service;
 
-import bo.Frame;
-import bo.Game;
+import app.bowling.game.bo.Frame;
+import app.bowling.game.bo.Game;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

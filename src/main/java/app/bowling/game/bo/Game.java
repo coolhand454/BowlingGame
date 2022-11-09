@@ -1,10 +1,14 @@
-package bo;
+package app.bowling.game.bo;
 
-import java.util.Collections;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Getter
+@Setter
 public class Game {
 
     private Map<String, List<Frame>> playerFrames;
@@ -16,7 +20,4 @@ public class Game {
         return playerFrames;
     }
 
-    public void setPlayerFrames(Map<String, List<Frame>> playerFrames) {
-        this.playerFrames = playerFrames;
-    }
 }
