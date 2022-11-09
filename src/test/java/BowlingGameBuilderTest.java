@@ -1,12 +1,8 @@
 import bo.Frame;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import service.GamePlay;
 
 import java.io.BufferedReader;
@@ -16,14 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BowlingGameBuilderTest {
-
-    @Mock
-    BufferedReader bufferedReader;
 
     Frame frame;
 
@@ -32,13 +23,16 @@ public class BowlingGameBuilderTest {
     String[] stringBuilder;
     String[] stringBuilder2;
 
+    GamePlay gamePlay;
+    Map<String, List<Frame>> playerGame2;
+
 
     @BeforeEach
     void setup() {
 
         MockitoAnnotations.initMocks(this);
         frame = new Frame();
-
+        gamePlay = new GamePlay();
         List<String> pinFallChars = new ArrayList<>();
         List<Integer> pinFallCount = new ArrayList<>();
         List<Frame> frames = new ArrayList<>();
@@ -104,84 +98,50 @@ public class BowlingGameBuilderTest {
                 "Carl 10",
                 "Carl 10",
                 "Carl 10"};
+        try {
+            for (int pos = 0; pos < stringBuilder.length; pos++) {
 
+                gamePlay.buildBowlingGame(stringBuilder[pos], playerGame);
+
+            }
+
+            playerGame2 = new HashMap<>();
+            for (int pos = 0; pos < stringBuilder2.length; pos++) {
+                gamePlay.buildBowlingGame(stringBuilder2[pos], playerGame2);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     void testBowlingGameBuidler() throws IOException {
-        //when( bufferedReader.readLine()).thenReturn("Tom 1");
-        GamePlay gamePlay = new GamePlay();
 
-        //gamePlay.buildBowlingGame("Tom 10", playerGame = new HashMap<>());
-//        assertFalse(playerGame.isEmpty());
-//        assertEquals(1, playerGame.get("Tom").get(0).getPinFallCount().get(0));
+        assertEquals("4", playerGame.get("Tom").get(0).getPinFallChars().get(1));
+        assertEquals("8", playerGame.get("Jeff").get(5).getPinFallChars().get(0));
+        assertEquals("", playerGame.get("John").get(2).getPinFallChars().get(1));
+        assertEquals("X", playerGame2.get("Carl").get(2).getPinFallChars().get(0));
 
-        for (int pos = 0; pos < stringBuilder.length; pos ++) {
-            gamePlay.buildBowlingGame(stringBuilder[pos], playerGame );
-        }
+
+    }
+
+    @Test
+    void testBowlingAssignScores() throws IOException {
         gamePlay.assignScores(playerGame);
+        gamePlay.assignScores(playerGame2);
+
+        assertEquals(5, playerGame.get("Tom").get(0).getScore());
+        assertEquals(84, playerGame.get("Jeff").get(5).getScore());
+        assertEquals(44, playerGame.get("John").get(2).getScore());
+        assertEquals(90, playerGame2.get("Carl").get(2).getScore());
+    }
+
+    @Test
+    void testBowlingPrintGame() throws IOException {
+        gamePlay.assignScores(playerGame);
+        gamePlay.assignScores(playerGame2);
         gamePlay.printBowlingResults(playerGame);
 
-        playerGame = new HashMap<>();
-        for (int pos = 0; pos < stringBuilder2.length; pos ++) {
-            gamePlay.buildBowlingGame(stringBuilder2[pos], playerGame );
-        }
-        gamePlay.assignScores(playerGame);
-        gamePlay.printBowlingResults(playerGame);
-
-
-
-//        playerGame = new HashMap<>();
-//        frame = new Frame();
-//
-//        List<String> pinFallChars = new ArrayList<>();
-//        List<Integer> pinFallCount = new ArrayList<>();
-//        List<Frame> frames = new ArrayList<>();
-//
-//
-//        frame.setPinFallChars(pinFallChars);
-//        frame.setPinFallCount(pinFallCount);
-//
-//        frames.add(frame);
-//        playerGame.put("Tom", frames);
-//
-//        gamePlay.buildBowlingGame("Tom 10", playerGame );
-//        gamePlay.buildBowlingGame("Tom 5", playerGame );
-//
-//
-//        playerGame = new HashMap<>();
-//        frame = new Frame();
-//
-//        pinFallChars = new ArrayList<>();
-//         pinFallCount = new ArrayList<>();
-//         frames = new ArrayList<>();
-//
-//        frame.setPinFallChars(pinFallChars);
-//        frame.setPinFallCount(pinFallCount);
-//
-//        frames.add(frame);
-//
-//        playerGame.put("Tom", frames);
-//        gamePlay.buildBowlingGame("Tom 5", playerGame );
-//        gamePlay.buildBowlingGame("Tom 5", playerGame );
-//
-//        playerGame = new HashMap<>();
-//        frame = new Frame();
-//
-//        pinFallChars = new ArrayList<>();
-//        pinFallCount = new ArrayList<>();
-//        frames = new ArrayList<>();
-//
-//        frame.setPinFallChars(pinFallChars);
-//        frame.setPinFallCount(pinFallCount);
-//
-//        frames.add(frame);
-//
-//        playerGame.put("Tom", frames);
-//        gamePlay.buildBowlingGame("Tom 10", playerGame );
-//        //gamePlay.buildBowlingGame("Tom 5", playerGame );
-
-        System.out.println();
-
+        gamePlay.printBowlingResults(playerGame2);
     }
 }
